@@ -27,5 +27,9 @@ repositories {
 dependencies {
     compile('org.springframework.boot:spring-boot-starter')
     runtime('org.springframework.boot:spring-boot-devtools')
+    runtime('mysql:mysql-connector-java')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    implementation 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 }
