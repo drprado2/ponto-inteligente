@@ -11,5 +11,6 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> 
 
     Funcionario findByEmail(String email);
 
+    // Esse OR é outra convenção, ele cria um  WHERE OR
     Funcionario findByCpfOrEmail(String cpf, String email);
 }

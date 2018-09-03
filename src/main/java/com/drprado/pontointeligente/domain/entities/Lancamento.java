@@ -4,31 +4,40 @@ import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
 @Table(name = "lancamento")
+@AttributeOverride(name = "id", column = @Column(name = "id", nullable = false))
 public class Lancamento extends EntidadeBase implements Serializable {
 
     private static final long serialVersionUID = 6524560251526772839L;
 
-    private Date data;
+    private LocalDateTime data;
     private String descricao;
     private String localizacao;
     private TipoLancamentoHora tipo;
     private Funcionario funcionario;
 
-    public Lancamento() {
+    public Lancamento(LocalDateTime data, String descricao, String localizacao, TipoLancamentoHora tipo, Funcionario funcionario) {
+        this.data = data;
+        this.descricao = descricao;
+        this.localizacao = localizacao;
+        this.tipo = tipo;
+        this.funcionario = funcionario;
     }
 
-    // timestamp será gravado data e hora
-    @Temporal(TemporalType.TIMESTAMP)
+    protected Lancamento() {
+    }
+
     @Column(name = "data", nullable = false)
-    public Date getData() {
+    public LocalDateTime getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDateTime data) {
         this.data = data;
     }
 

@@ -1,14 +1,20 @@
 package com.drprado.pontointeligente.domain.entities;
 
+import com.drprado.pontointeligente.crosscutting.util.ClockFactory;
+import org.springframework.cglib.core.Local;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Clock;
+import java.time.LocalDateTime;
 import java.util.Date;
 
+@MappedSuperclass
 public class EntidadeBase implements Serializable {
 
     private Long id;
-    private Date dataCriacao;
-    private Date dataAtualizacao;
+    private LocalDateTime dataCriacao;
+    private LocalDateTime dataAtualizacao;
 
     // id
     @Id
@@ -17,38 +23,39 @@ public class EntidadeBase implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
+    protected void setId(Long id){
         this.id = id;
     }
 
+
     @Column(name = "DATA_CRIACAO", nullable = false)
-    public Date getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(Date dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
     @Column(name = "DATA_ATUALIZACAO", nullable = false)
-    public Date getDataAtualizacao() {
+    public LocalDateTime getDataAtualizacao() {
         return dataAtualizacao;
     }
 
-    public void setDataAtualizacao(Date dataAtualizacao) {
+    public void setDataAtualizacao(LocalDateTime dataAtualizacao) {
         this.dataAtualizacao = dataAtualizacao;
     }
 
     // Chamado sempre antes de atualizar
     @PreUpdate
     public void preUpdate() {
-        dataAtualizacao = new Date();
+        dataAtualizacao = LocalDateTime.now(ClockFactory.get());
     }
 
     // chamado sempre antes de persistir
     @PrePersist
     public void prePersist() {
-        final Date atual = new Date();
+        final LocalDateTime atual = LocalDateTime.now(ClockFactory.get());
         dataCriacao = atual;
         dataAtualizacao = atual;
     }

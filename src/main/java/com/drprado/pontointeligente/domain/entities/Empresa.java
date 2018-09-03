@@ -2,10 +2,12 @@ package com.drprado.pontointeligente.domain.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "empresa")
+@AttributeOverride(name = "id", column = @Column(name = "id", nullable = false))
 public class Empresa extends EntidadeBase implements Serializable {
 
     private static final long serialVersionUID = 3960436649365666213L;
@@ -14,7 +16,14 @@ public class Empresa extends EntidadeBase implements Serializable {
     private String cnpj;
     private List<Funcionario> funcionarios;
 
-    public Empresa() {
+    public Empresa(String razaoSocial, String cnpj) {
+        this.razaoSocial = razaoSocial;
+        this.cnpj = cnpj;
+        this.funcionarios = new ArrayList<>();
+    }
+
+    protected Empresa(){
+        this.funcionarios = new ArrayList<>();
     }
 
     @Column(name = "razao_social", nullable = false)
@@ -41,7 +50,11 @@ public class Empresa extends EntidadeBase implements Serializable {
     }
 
     public void setFuncionarios(List<Funcionario> funcionarios) {
-        this.funcionarios = funcionarios;
+        this.funcionarios.addAll(funcionarios);
+    }
+
+    public void setFuncionarios(Funcionario funcionario){
+        this.funcionarios.add(funcionario);
     }
 
     @Override

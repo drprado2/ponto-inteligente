@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.api;
+package com.drprado.pontointeligente;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

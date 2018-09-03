@@ -6,12 +6,14 @@ import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Entity
 @Table(name = "funcionario")
+@AttributeOverride(name = "id", column = @Column(name = "id", nullable = false))
 public class Funcionario extends EntidadeBase implements Serializable {
 
     private static final long serialVersionUID = -5754246207015712518L;
@@ -27,10 +29,20 @@ public class Funcionario extends EntidadeBase implements Serializable {
     private Empresa empresa;
     private List<Lancamento> lancamentos;
 
-    public Funcionario() {
+    public Funcionario(String nome, String email, String senha, String cpf) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        lancamentos = new ArrayList<>();
+        perfil = Perfil.ROLE_USUARIO;
     }
 
-    @Column(name = "NOME", nullable = false)
+    protected Funcionario(){
+        lancamentos = new ArrayList<>();
+    }
+
+    @Column(name = "nome", nullable = false)
     public String getNome() {
         return nome;
     }
@@ -39,7 +51,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.nome = nome;
     }
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "email", nullable = false)
     public String getEmail() {
         return email;
     }
@@ -48,7 +60,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.email = email;
     }
 
-    @Column(name = "CPF", nullable = false)
+    @Column(name = "cpf", nullable = false)
     public String getCpf() {
         return cpf;
     }
@@ -57,7 +69,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.cpf = cpf;
     }
 
-    @Column(name = "VALOR_HORA", nullable = true)
+    @Column(name = "valor_hora", nullable = true)
     public BigDecimal getValorHora() {
         return valorHora;
     }
@@ -72,7 +84,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.valorHora = valorHora;
     }
 
-    @Column(name = "QTD_HORAS_TRABALHO_DIA", nullable = true)
+    @Column(name = "qtd_horas_trabalho_dia", nullable = true)
     public Float getQtdHorasTrabalhoDia() {
         return qtdHorasTrabalhoDia;
     }
@@ -86,7 +98,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.qtdHorasTrabalhoDia = qtdHorasTrabalhoDia;
     }
 
-    @Column(name = "QTD_HORAS_ALMOCO", nullable = true)
+    @Column(name = "qtd_horas_almoco", nullable = true)
     public Float getQtdHorasAlmoco() {
         return qtdHorasAlmoco;
     }
@@ -102,7 +114,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
 
     // Essa notation faz com que seja guardado a string do enum no banco e nao so o numero
     @Enumerated(EnumType.STRING)
-    @Column(name = "PERFIL", nullable = false)
+    @Column(name = "perfil", nullable = false)
     public Perfil getPerfil() {
         return perfil;
     }
@@ -112,7 +124,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
     }
 
 
-    @Column(name = "SENHA", nullable = false)
+    @Column(name = "senha", nullable = false)
     public String getSenha() {
         return senha;
     }
@@ -138,13 +150,17 @@ public class Funcionario extends EntidadeBase implements Serializable {
     // O fetch LAZY fará um Proxy de tal maneira que só serão carregados os lancamentos
     // qnd solicitar seu valor
     // O cascade ferá com q qnd for deletado um funcionario seus lancamentos tmb sejam deletados
-    @OneToMany(mappedBy = "FUNCIONARIO", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     public List<Lancamento> getLancamentos() {
         return lancamentos;
     }
 
     public void setLancamentos(List<Lancamento> lancamentos) {
-        this.lancamentos = lancamentos;
+        this.lancamentos.addAll(lancamentos);
+    }
+
+    public void setLancamentos(Lancamento lancamento) {
+        this.lancamentos.add(lancamento);
     }
 
     @Override
