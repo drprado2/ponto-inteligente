@@ -17,7 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.time.LocalDateTime;
+import java.time.*;
+import java.time.temporal.Temporal;
+import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,6 +36,8 @@ public class LancamentoRepositoryTest {
 
     private Funcionario funcionarioAdriano;
     private Funcionario funcionarioJoao;
+    private final LocalDateTime MOCK_DATE = LocalDateTime.of(2018, 8, 15, 10, 0);
+    private final static ZoneId ZONE_ID = ZoneId.systemDefault();
 
     @Before
     public void setUp(){
@@ -43,7 +47,7 @@ public class LancamentoRepositoryTest {
         funcionarioAdriano = funcionarioRepository.findByCpf("123321");
         funcionarioJoao = funcionarioRepository.findByCpf("333444");
 
-
+        ClockFactory.setClock(Clock.fixed(MOCK_DATE.atZone(ZONE_ID).toInstant(), ZONE_ID));
     }
 
     @After
@@ -92,6 +96,34 @@ public class LancamentoRepositoryTest {
         assertEquals(1, pagina2.getNumberOfElements());
 
         assertEquals(0, pagina3.getNumberOfElements());
+    }
+
+    @Test
+    public void findingBetweenDateAndDescriptionContains(){
+        final LocalDateTime initialDateToFilter = LocalDateTime.now(ClockFactory.get()).plusDays(-2);
+        final LocalDateTime finalDateToFilter = LocalDateTime.now(ClockFactory.get()).plusDays(2);
+        final String descriptionToFilter =  "Descrição deve vir";
+
+        List<Lancamento> lancamentos = Arrays.asList(
+            gerarLancamento(funcionarioAdriano, LocalDateTime.now(ClockFactory.get()).plusDays(3), TipoLancamentoHora.INICIO_ALMOCO),
+            gerarLancamento(funcionarioAdriano, LocalDateTime.now(ClockFactory.get()).plusDays(2), TipoLancamentoHora.INICIO_ALMOCO),
+            gerarLancamento(funcionarioAdriano, LocalDateTime.now(ClockFactory.get()).plusDays(1), TipoLancamentoHora.INICIO_ALMOCO),
+            gerarLancamento(funcionarioAdriano, LocalDateTime.now(ClockFactory.get()).plusDays(-2), TipoLancamentoHora.INICIO_ALMOCO),
+            gerarLancamento(funcionarioAdriano, LocalDateTime.now(ClockFactory.get()).plusDays(-3), TipoLancamentoHora.INICIO_ALMOCO)
+        );
+        lancamentos.get(1).setDescricao(descriptionToFilter);
+        lancamentos.get(3).setDescricao(descriptionToFilter);
+
+        lancamentoRepository.saveAll(lancamentos);
+
+        List<Lancamento> all = lancamentoRepository.findAll();
+
+        List<Lancamento> result = lancamentoRepository
+                .findBetweenDateAndDescription(initialDateToFilter, finalDateToFilter, descriptionToFilter);
+
+        assertEquals(2, result.size());
+        assertEquals(result.get(0).getData(), LocalDateTime.now(ClockFactory.get()).plusDays(2));
+        assertEquals(result.get(2).getData(), LocalDateTime.now(ClockFactory.get()).plusDays(-2));
     }
 
     public static Lancamento gerarLancamento(Funcionario funcionario, LocalDateTime date, TipoLancamentoHora tipo){
