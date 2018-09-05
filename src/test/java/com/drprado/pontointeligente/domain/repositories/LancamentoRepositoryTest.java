@@ -116,14 +116,12 @@ public class LancamentoRepositoryTest {
 
         lancamentoRepository.saveAll(lancamentos);
 
-        List<Lancamento> all = lancamentoRepository.findAll();
-
         List<Lancamento> result = lancamentoRepository
                 .findBetweenDateAndDescription(initialDateToFilter, finalDateToFilter, descriptionToFilter);
 
         assertEquals(2, result.size());
         assertEquals(result.get(0).getData(), LocalDateTime.now(ClockFactory.get()).plusDays(2));
-        assertEquals(result.get(2).getData(), LocalDateTime.now(ClockFactory.get()).plusDays(-2));
+        assertEquals(result.get(1).getData(), LocalDateTime.now(ClockFactory.get()).plusDays(-2));
     }
 
     public static Lancamento gerarLancamento(Funcionario funcionario, LocalDateTime date, TipoLancamentoHora tipo){
