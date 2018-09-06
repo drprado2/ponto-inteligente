@@ -23,10 +23,9 @@ public class EntidadeBase implements Serializable {
         return id;
     }
 
-    protected void setId(Long id){
+    public void setId(Long id){
         this.id = id;
     }
-
 
     @Column(name = "DATA_CRIACAO", nullable = false)
     public LocalDateTime getDataCriacao() {
