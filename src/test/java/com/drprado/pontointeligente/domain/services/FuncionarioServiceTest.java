@@ -4,6 +4,7 @@ import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -29,10 +30,14 @@ public class FuncionarioServiceTest {
 
     private Empresa mockEmpresa;
 
-    @Test
-    public void criandoFuncionarioValido(){
+    @Before
+    public void setUp(){
         mockEmpresa = Mockito.mock(Empresa.class);
         Mockito.when(mockEmpresa.getId()).thenReturn(1L);
+    }
+
+    @Test
+    public void criandoFuncionarioValido(){
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", "10222");
         Mockito.when(funcionarioRepository.save(funcionario)).thenReturn(funcionario);
 
