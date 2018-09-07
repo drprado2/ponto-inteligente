@@ -133,16 +133,16 @@ public class LancamentoServiceTest {
         List<Lancamento> lancamentos = Arrays.asList(lancamento1, lancamento2);
         PageRequest mockPageRequest = PageRequest.of(1, 2);
         Page<Lancamento> pageResult = Mockito.mock(Page.class);
+        int currentPage = 1;
+        int itensPerPage = 10;
         Mockito
             .when(lancamentoRepository
-                    .findByFuncionarioId(funcionario.getId(), Mockito.argThat(p -> p.getPageNumber() == 1 &&
-                            p.getPageSize() == 2)))
+                .findByFuncionarioId(Mockito.eq(funcionario.getId()),
+                Mockito.argThat(p -> p.getPageNumber() == currentPage && p.getPageSize() == itensPerPage)))
             .thenReturn(pageResult);
 
-        List<Lancamento> result = lancamentoService.obterPorFuncionario(funcionario.getId());
+        Page<Lancamento> result = lancamentoService.obterPaginadoPorFuncionario(funcionario.getId(), currentPage, itensPerPage);
 
-        assertEquals(2, result.size());
-        assertEquals(result.stream().filter(l -> l.getId().equals(lancamento1.getId())).findFirst().get().getId(), lancamento1.getId());
-        assertEquals(result.stream().filter(l -> l.getId().equals(lancamento2.getId())).findFirst().get().getId(), lancamento2.getId());
+        assertEquals(pageResult, result);
     }
 }
