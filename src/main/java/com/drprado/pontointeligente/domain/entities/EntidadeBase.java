@@ -1,13 +1,10 @@
 package com.drprado.pontointeligente.domain.entities;
 
 import com.drprado.pontointeligente.crosscutting.util.ClockFactory;
-import org.springframework.cglib.core.Local;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @MappedSuperclass
 public class EntidadeBase implements Serializable {

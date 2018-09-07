@@ -1,14 +1,12 @@
 package com.drprado.pontointeligente.domain.entities;
 
 import com.drprado.pontointeligente.domain.enums.Perfil;
-import com.sun.istack.internal.NotNull;
-import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Set;
 
 @Entity
 @Table(name = "funcionario")

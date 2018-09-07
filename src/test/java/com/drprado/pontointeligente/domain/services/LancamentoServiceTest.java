@@ -6,7 +6,6 @@ import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Lancamento;
 import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
 import com.drprado.pontointeligente.domain.repositories.LancamentoRepository;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +18,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.awt.print.Pageable;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.LocalDateTime;

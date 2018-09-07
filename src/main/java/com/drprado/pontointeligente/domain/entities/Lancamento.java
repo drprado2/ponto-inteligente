@@ -6,9 +6,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.Clock;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
 @Table(name = "lancamento")

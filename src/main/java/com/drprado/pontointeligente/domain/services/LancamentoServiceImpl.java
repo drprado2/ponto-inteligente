@@ -1,7 +1,6 @@
 package com.drprado.pontointeligente.domain.services;
 
 import com.drprado.pontointeligente.domain.entities.Lancamento;
-import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import com.drprado.pontointeligente.domain.repositories.LancamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
