@@ -1,15 +1,14 @@
 package com.drprado.pontointeligente.domain.entities;
 
 import com.drprado.pontointeligente.domain.enums.Perfil;
+import com.sun.istack.internal.NotNull;
 import com.sun.jndi.url.corbaname.corbanameURLContextFactory;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "funcionario")
@@ -27,19 +26,19 @@ public class Funcionario extends EntidadeBase implements Serializable {
     private Float qtdHorasAlmoco;
     private Perfil perfil;
     private Empresa empresa;
-    private List<Lancamento> lancamentos;
+    private Long empresaId;
+    private Set<Lancamento> lancamentos;
 
-    public Funcionario(String nome, String email, String senha, String cpf) {
+    public Funcionario(Long empresaId, String nome, String email, String senha, String cpf) {
+        this.empresaId = empresaId;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.cpf = cpf;
-        lancamentos = new ArrayList<>();
         perfil = Perfil.ROLE_USUARIO;
     }
 
     protected Funcionario(){
-        lancamentos = new ArrayList<>();
     }
 
     @Column(name = "nome", nullable = false)
@@ -136,31 +135,32 @@ public class Funcionario extends EntidadeBase implements Serializable {
     // Muitos de mim para um dele, ou seja muitos funcionarios para 1 empresa
     // ou seja id da empresa do funcionario
     // o fetch do tipo EAGER já trara a empresa carregada qnd trazer o funcionario do banco
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "empresa_id", insertable = false, updatable = false, nullable = false)
     public Empresa getEmpresa() {
         return empresa;
     }
 
-    public void setEmpresa(Empresa empresa) {
+    private void setEmpresa(Empresa empresa){
         this.empresa = empresa;
     }
 
-    // um de mim para muitos dele, 1 funcionario muitos lancamentos
-    // ou seja id do lancamento no funcionario
-    // O fetch LAZY fará um Proxy de tal maneira que só serão carregados os lancamentos
-    // qnd solicitar seu valor
-    // O cascade ferá com q qnd for deletado um funcionario seus lancamentos tmb sejam deletados
-    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    public List<Lancamento> getLancamentos() {
+    @Column(name = "empresa_id", nullable = false)
+    public Long getEmpresaId(){
+        return empresaId;
+    }
+
+    public void setEmpresaId(Long empresaId){
+        this.empresaId = empresaId;
+    }
+
+    @OneToMany(mappedBy = "funcionario", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    public Set<Lancamento> getLancamentos() {
         return lancamentos;
     }
 
-    public void setLancamentos(List<Lancamento> lancamentos) {
-        this.lancamentos.addAll(lancamentos);
-    }
-
-    public void setLancamentos(Lancamento lancamento) {
-        this.lancamentos.add(lancamento);
+    protected void setLancamentos(Set<Lancamento> lancamentos) {
+        this.lancamentos = lancamentos;
     }
 
     @Override

@@ -44,7 +44,7 @@ public class Empresa extends EntidadeBase implements Serializable {
         this.cnpj = cnpj;
     }
 
-    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "empresa", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     public List<Funcionario> getFuncionarios() {
         return funcionarios;
     }

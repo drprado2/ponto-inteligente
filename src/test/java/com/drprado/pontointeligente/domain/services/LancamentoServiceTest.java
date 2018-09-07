@@ -1,6 +1,7 @@
 package com.drprado.pontointeligente.domain.services;
 
 import com.drprado.pontointeligente.crosscutting.util.ClockFactory;
+import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Lancamento;
 import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
@@ -40,10 +41,15 @@ public class LancamentoServiceTest {
     @MockBean
     LancamentoRepository lancamentoRepository;
 
+    private Empresa mockEmpresa;
+
     @Before
     public void setUp(){
         final Instant mockDate = LocalDateTime.of(2018,8,15,10,0)
                 .atZone(ZoneId.systemDefault()).toInstant();
+
+        mockEmpresa = Mockito.mock(Empresa.class);
+        Mockito.when(mockEmpresa.getId()).thenReturn(1L);
 
         Clock clock = Clock.fixed(mockDate, ZoneId.systemDefault());
         ClockFactory.setClock(clock);
@@ -51,7 +57,7 @@ public class LancamentoServiceTest {
 
     @Test
     public void salvandoLancamentoValido(){
-        Funcionario funcionario = new Funcionario("Adriano", "adriano@gmail.com", "102030", "085777996");
+        Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", "085777996");
         Lancamento lancamento = new Lancamento(
                 LocalDateTime.now(ClockFactory.get()),
                 "Teste",
@@ -68,9 +74,9 @@ public class LancamentoServiceTest {
 
     @Test
     public void buscandoLancamentosPorFuncionario(){
-        Funcionario funcionario = new Funcionario("Adriano", "adriano@gmail.com", "102030", "085777996");
+        Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", "085777996");
         funcionario.setId(1L);
-        Funcionario funcionario2 = new Funcionario("Pedro", "pedro@gmail.com", "102030", "085777996");
+        Funcionario funcionario2 = new Funcionario(mockEmpresa.getId(),"Pedro", "pedro@gmail.com", "102030", "085777996");
         funcionario2.setId(2L);
         Lancamento lancamento1 = new Lancamento(
                 LocalDateTime.now(ClockFactory.get()),
@@ -106,7 +112,7 @@ public class LancamentoServiceTest {
 
     @Test
     public void buscandoLancamentosPorFuncionarioPaginado(){
-        Funcionario funcionario = new Funcionario("Adriano", "adriano@gmail.com", "102030", "085777996");
+        Funcionario funcionario = new Funcionario(mockEmpresa.getId(), "Adriano", "adriano@gmail.com", "102030", "085777996");
         funcionario.setId(1L);
         Lancamento lancamento1 = new Lancamento(
                 LocalDateTime.now(ClockFactory.get()),

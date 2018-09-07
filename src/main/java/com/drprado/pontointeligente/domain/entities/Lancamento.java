@@ -1,6 +1,8 @@
 package com.drprado.pontointeligente.domain.entities;
 
 import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -69,12 +71,14 @@ public class Lancamento extends EntidadeBase implements Serializable {
         this.tipo = tipo;
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "funcionario_id", nullable = false )
+    @OnDelete(action = OnDeleteAction.CASCADE)
     public Funcionario getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Funcionario funcionario) {
+    protected void setFuncionario(Funcionario funcionario){
         this.funcionario = funcionario;
     }
 
@@ -84,5 +88,4 @@ public class Lancamento extends EntidadeBase implements Serializable {
                 + ", dataCriacao=" + getDataCriacao() + ", dataAtualizacao=" + getDataAtualizacao() + ", tipo=" + tipo
                 + ", funcionario=" + funcionario + "]";
     }
-
 }

@@ -1,6 +1,7 @@
 package com.drprado.pontointeligente.domain.repositories;
 
 import com.drprado.pontointeligente.crosscutting.util.ClockFactory;
+import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Lancamento;
 import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
@@ -33,16 +34,20 @@ public class LancamentoRepositoryTest {
     private FuncionarioRepository funcionarioRepository;
     @Autowired
     private LancamentoRepository lancamentoRepository;
+    @Autowired
+    private EmpresaRepository empresaRepository;
 
     private Funcionario funcionarioAdriano;
     private Funcionario funcionarioJoao;
     private final LocalDateTime MOCK_DATE = LocalDateTime.of(2018, 8, 15, 10, 0);
     private final static ZoneId ZONE_ID = ZoneId.systemDefault();
+    private Empresa empresaPadrao;
 
     @Before
     public void setUp(){
-        funcionarioRepository.save(new Funcionario("Adriano", "adri@gmail.com", "102030", "123321"));
-        funcionarioRepository.save(new Funcionario("João", "joao@gmail.com", "302010", "333444"));
+        empresaPadrao = empresaRepository.save(new Empresa("Teste Empresa", "101255566"));
+        funcionarioRepository.save(new Funcionario(empresaPadrao.getId(),"Adriano", "adri@gmail.com", "102030", "123321"));
+        funcionarioRepository.save(new Funcionario(empresaPadrao.getId(),"João", "joao@gmail.com", "302010", "333444"));
 
         funcionarioAdriano = funcionarioRepository.findByCpf("123321");
         funcionarioJoao = funcionarioRepository.findByCpf("333444");
