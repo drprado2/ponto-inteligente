@@ -7,7 +7,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-public class EntidadeBase implements Serializable {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class EntidadeBase implements Serializable {
 
     private Long id;
     private LocalDateTime dataCriacao;

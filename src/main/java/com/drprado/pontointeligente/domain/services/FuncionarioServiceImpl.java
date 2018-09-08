@@ -5,6 +5,7 @@ import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,11 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     @Override
     public Optional<Funcionario> buscarPorId(Long id) {
         return Optional.ofNullable(funcionarioRepository.getOne(id));
+    }
+
+    @Override
+    public List<Funcionario> buscaFiltrada() {
+//        funcionarioRepository.find
+        return null;
     }
 }
