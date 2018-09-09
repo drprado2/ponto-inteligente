@@ -10,14 +10,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Order;
+import javax.persistence.metamodel.SingularAttribute;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.persistence.criteria.Order;
-import javax.persistence.metamodel.SingularAttribute;
 
 import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.getLikePattern;
-import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.specAlways;
 import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.specNever;
 
 @Component

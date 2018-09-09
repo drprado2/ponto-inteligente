@@ -1,12 +1,12 @@
 package com.drprado.pontointeligente.integration.domain.repositories;
 
 import com.drprado.pontointeligente.crosscutting.IoC.ContextResolver;
-import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
-import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
+import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
+import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;

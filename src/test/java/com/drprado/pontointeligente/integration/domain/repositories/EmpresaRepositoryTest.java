@@ -1,7 +1,7 @@
 package com.drprado.pontointeligente.integration.domain.repositories;
 
-import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
+import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

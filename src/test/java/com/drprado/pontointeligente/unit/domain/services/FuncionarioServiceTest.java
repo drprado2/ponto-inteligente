@@ -1,8 +1,8 @@
-package com.drprado.pontointeligente.domain.services;
+package com.drprado.pontointeligente.unit.domain.services;
 
-import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
+import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

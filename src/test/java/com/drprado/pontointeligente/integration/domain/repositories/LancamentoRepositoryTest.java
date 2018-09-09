@@ -1,13 +1,13 @@
 package com.drprado.pontointeligente.integration.domain.repositories;
 
 import com.drprado.pontointeligente.crosscutting.util.ClockFactory;
-import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
-import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
-import com.drprado.pontointeligente.domain.repositories.LancamentoRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Lancamento;
 import com.drprado.pontointeligente.domain.enums.TipoLancamentoHora;
+import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
+import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
+import com.drprado.pontointeligente.domain.repositories.LancamentoRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
