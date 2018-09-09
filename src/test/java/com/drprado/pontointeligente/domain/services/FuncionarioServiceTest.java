@@ -1,8 +1,8 @@
 package com.drprado.pontointeligente.domain.services;
 
+import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
-import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class FuncionarioServiceTest {
     private FuncionarioService funcionarioService;
 
     @MockBean
-    private FuncionarioRepository funcionarioRepository;
+    private FuncionarioRepository mockFuncionarioRepository;
 
     private Empresa mockEmpresa;
 
@@ -38,11 +38,11 @@ public class FuncionarioServiceTest {
     @Test
     public void criandoFuncionarioValido(){
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", "10222");
-        Mockito.when(funcionarioRepository.save(funcionario)).thenReturn(funcionario);
+        Mockito.when(mockFuncionarioRepository.save(funcionario)).thenReturn(funcionario);
 
         Funcionario result = funcionarioService.salvar(funcionario);
 
-        Mockito.verify(funcionarioRepository, Mockito.times(1)).save(funcionario);
+        Mockito.verify(mockFuncionarioRepository, Mockito.times(1)).save(funcionario);
         assertEquals(funcionario.getNome(), result.getNome());
     }
 
@@ -50,7 +50,7 @@ public class FuncionarioServiceTest {
     public void buscandoFuncionarioPorCpf(){
         final String CPF = "08655577796";
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", CPF);
-        Mockito.when(funcionarioRepository.findByCpf(CPF)).thenReturn(funcionario);
+        Mockito.when(mockFuncionarioRepository.findByCpf(CPF)).thenReturn(funcionario);
 
         Optional<Funcionario> result = funcionarioService.buscarPorCpf(CPF);
 
@@ -61,7 +61,7 @@ public class FuncionarioServiceTest {
     public void buscandoFuncionarioPorEmail(){
         final String EMAIL = "adriano@gmail.com";
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", EMAIL, "102030", "1536448");
-        Mockito.when(funcionarioRepository.findByEmail(EMAIL)).thenReturn(funcionario);
+        Mockito.when(mockFuncionarioRepository.findByEmail(EMAIL)).thenReturn(funcionario);
 
         Optional<Funcionario> result = funcionarioService.buscarPorEmail(EMAIL);
 
@@ -71,7 +71,7 @@ public class FuncionarioServiceTest {
     @Test
     public void buscandoPorId(){
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adri@gmail.com", "102030", "1536448");
-        Mockito.when(funcionarioRepository.getOne(funcionario.getId())).thenReturn(funcionario);
+        Mockito.when(mockFuncionarioRepository.getOne(funcionario.getId())).thenReturn(funcionario);
 
         Optional<Funcionario> result = funcionarioService.buscarPorId(funcionario.getId());
 

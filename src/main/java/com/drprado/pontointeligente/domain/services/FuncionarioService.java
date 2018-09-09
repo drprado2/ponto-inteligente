@@ -1,6 +1,9 @@
 package com.drprado.pontointeligente.domain.services;
 
+import com.drprado.pontointeligente.domain.dto.GenericFilters;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,5 +17,7 @@ public interface FuncionarioService {
 
     Optional<Funcionario> buscarPorId(Long id);
 
-    List<Funcionario> buscaFiltrada();
+    List<Funcionario> buscaFiltrada(GenericFilters filters);
+
+    Page<Funcionario> buscaFiltrada(GenericFilters filters, Pageable pageable);
 }

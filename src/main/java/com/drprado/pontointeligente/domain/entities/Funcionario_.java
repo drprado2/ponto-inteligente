@@ -1,6 +1,5 @@
 package com.drprado.pontointeligente.domain.entities;
 
-import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 
 import javax.annotation.Generated;

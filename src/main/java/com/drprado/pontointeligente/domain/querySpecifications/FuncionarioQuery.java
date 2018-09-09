@@ -1,20 +1,91 @@
 package com.drprado.pontointeligente.domain.querySpecifications;
 
+import com.drprado.pontointeligente.domain.dto.GenericFilterField;
+import com.drprado.pontointeligente.domain.dto.GenericOrder;
+import com.drprado.pontointeligente.domain.dto.OrderType;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Funcionario_;
 import com.drprado.pontointeligente.domain.enums.Perfil;
-import org.hibernate.query.criteria.internal.predicate.PredicateImplementor;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import javax.persistence.criteria.Order;
 import javax.persistence.metamodel.SingularAttribute;
-import java.util.HashSet;
-import java.util.Set;
 
 import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.getLikePattern;
+import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.specAlways;
+import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.specNever;
 
-public final class FuncionarioQuery {
-    private FuncionarioQuery() {
+@Component
+public final class FuncionarioQuery implements QuerySpecificator<Funcionario> {
+    public FuncionarioQuery() {
+        filterFunctions = new HashMap<>();
+        attributes = new HashMap<>();
+
+        attributes.put("nome", Funcionario_.nome);
+        attributes.put("cpf", Funcionario_.cpf);
+        attributes.put("email", Funcionario_.email);
+        attributes.put("empresaId", Funcionario_.empresaId);
+        attributes.put("perfil", Funcionario_.perfil);
+
+        filterFunctions.put("nome", v -> {
+            if(v instanceof String)
+                return nameLike((String)v);
+            return specNever();
+        });
+        filterFunctions.put("email", v -> {
+            if(v instanceof String)
+                return emailLike((String)v);
+            return specNever();
+        });
+        filterFunctions.put("cpf", v -> {
+            if(v instanceof String)
+                return cpfEquals((String)v);
+            return specNever();
+        });
+        filterFunctions.put("empresaId", v -> {
+            if(v instanceof Long)
+                return empresaEquals((Long)v);
+            return specNever();
+        });
+        filterFunctions.put("perfil", v -> {
+            if(v != null && v instanceof Set<?>)
+                return perfilIn((HashSet<Perfil>)v);
+            return specNever();
+        });
+    }
+
+    private Map<String, Function<Object, Specification<Funcionario>>> filterFunctions;
+    public Map<String, SingularAttribute<Funcionario, ? extends Object>> attributes;
+
+    public Specification<Funcionario> getOrderSpec(List<GenericOrder> genericOrders){
+        return (root, query, cb) -> {
+
+            List<Order> orders = genericOrders.stream()
+                .filter(o -> attributes.getOrDefault(o.getField(), null) != null)
+                .map(o -> {
+                    SingularAttribute<Funcionario, ?> attribute = attributes.get(o.getField());
+                    return o.getOrderType() == OrderType.ASC ? cb.asc(root.get(attribute)) : cb.desc(root.get(attribute));
+                })
+                .collect(Collectors.toList());
+
+            query.orderBy(orders);
+
+            return cb.conjunction();
+        };
+    }
+
+    public Specification<Funcionario> getFilterSpec(GenericFilterField field){
+        Function<Object, Specification<Funcionario>> func = filterFunctions.getOrDefault(field.getFieldName(), null);
+
+        if(func == null)
+            return specAlways();
+
+        return func.apply(field.getFieldValue());
     }
 
     public static Specification<Funcionario> nameLike(String name){
@@ -36,7 +107,6 @@ public final class FuncionarioQuery {
 
     public static Specification<Funcionario> perfilIn(Set<Perfil> perfis){
         return (root, query, cb) -> {
-            // o método conjunction sempre traz true, e o disjunction sempre traz false
             if(perfis == null || perfis.isEmpty())
                 return cb.conjunction();
 

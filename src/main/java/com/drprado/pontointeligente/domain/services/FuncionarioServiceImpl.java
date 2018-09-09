@@ -1,8 +1,14 @@
 package com.drprado.pontointeligente.domain.services;
 
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationResolver;
+import com.drprado.pontointeligente.domain.dto.GenericFilters;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
+import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +19,9 @@ public class FuncionarioServiceImpl implements FuncionarioService{
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+
+    @Autowired
+    private FuncionarioQuery funcionarioQuery;
 
     @Override
     public Funcionario salvar(Funcionario funcionario) {
@@ -35,8 +44,18 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     }
 
     @Override
-    public List<Funcionario> buscaFiltrada() {
-//        funcionarioRepository.find
-        return null;
+    public List<Funcionario> buscaFiltrada(GenericFilters filters) {
+        Specification<Funcionario> finalSpec = QuerySpecificationResolver.resolveFilters(funcionarioQuery, filters);
+        finalSpec = finalSpec.and(QuerySpecificationResolver.resolveOrders(funcionarioQuery, filters));
+
+        return funcionarioRepository.findAll(finalSpec);
+    }
+
+    @Override
+    public Page<Funcionario> buscaFiltrada(GenericFilters filters, Pageable pageable) {
+        Specification<Funcionario> finalSpec = QuerySpecificationResolver.resolveFilters(funcionarioQuery, filters);
+        finalSpec = finalSpec.and(QuerySpecificationResolver.resolveOrders(funcionarioQuery, filters));
+
+        return funcionarioRepository.findAll(finalSpec, pageable);
     }
 }

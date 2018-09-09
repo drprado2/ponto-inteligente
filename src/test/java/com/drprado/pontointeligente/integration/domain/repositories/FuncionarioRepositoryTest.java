@@ -1,18 +1,20 @@
-package com.drprado.pontointeligente.domain.repositories;
+package com.drprado.pontointeligente.integration.domain.repositories;
 
 import com.drprado.pontointeligente.crosscutting.IoC.ContextResolver;
+import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
+import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
-import org.junit.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -220,4 +222,5 @@ public class FuncionarioRepositoryTest {
 
         assertEquals(result.size(), 3);
     }
+
 }
