@@ -18,31 +18,35 @@ public final class QuerySpecificationResolver {
     public static <T extends EntidadeBase> Specification<T> resolveFilters(
             QuerySpecificator<T> specificator, GenericFilters filters) {
 
-        Specification<T> finalSpec = QuerySpecHelper.specAlways();
+        Specification<T> finalSpec = null;
 
-        for(int i = 0; i < filters.getFilters().size(); i++){
-            GenericFilter currentFilter = filters.getFilters().get(i);
-            Specification<T> currentSpec = QuerySpecHelper.specAlways();
+        if(filters == null || (filters.getFilters().isEmpty() && filters.getOrders().isEmpty()))
+            return QuerySpecHelper.specAlways();
+
+        for(GenericFilter currentFilter : filters.getFilters()){
+            Specification<T> currentSpec;
 
             List<Specification<T>> specs = currentFilter.getFields()
                     .stream()
                     .map(f -> specificator.getFilterSpec(f))
+                    .filter(f -> f != null)
                     .collect(Collectors.toList());
 
-            if(currentFilter.getFilterConnectionType() == FilterConnectionType.AND) {
-                for(Specification<T> sp : specs)
-                    currentSpec = currentSpec.and(sp);
+            if(currentFilter.getLogicalLinkInnerConditions() == FilterConnectionType.AND) {
+                currentSpec = specs.stream().reduce((old, current) ->
+                        old == null ? Specification.where(current) : old.and(current)).get();
             }else{
-                for(Specification<T> sp : specs)
-                    currentSpec = currentSpec.or(sp);
+                currentSpec = specs.stream().reduce((old, current) ->
+                        old == null ? Specification.where(current) : old.or(current)).get();
             }
 
-            if(i == 0)
+            if(finalSpec == null)
                 finalSpec = Specification.where(currentSpec);
             else
-                finalSpec = finalSpec.or(currentSpec);
+                finalSpec = currentFilter.getLogicalLinkNextBlockConditions() == FilterConnectionType.AND
+                        ? finalSpec.and(currentSpec)
+                        : finalSpec.or(currentSpec);
         }
-
         return finalSpec;
     }
 

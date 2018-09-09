@@ -12,19 +12,25 @@ public final class GenericFilterBuilder {
     }
 
     private List<GenericFilterField> filters = new ArrayList<>();
-    private FilterConnectionType type;
+    private FilterConnectionType innerLink;
+    private FilterConnectionType nextLink;
 
-    protected void setType(FilterConnectionType type){
-        this.type = type;
+    protected void setInnerLink(FilterConnectionType type){
+        this.innerLink = type;
+    }
+
+    protected void setNextLink(FilterConnectionType type){
+        this.nextLink = type;
     }
 
     protected void addFilter(GenericFilterField filter){
         filters.add(filter);
     }
 
-    public static GenericFilterBuilder of(FilterConnectionType type){
+    public static GenericFilterBuilder of(FilterConnectionType logicalLinkNextBlock, FilterConnectionType logicalLinkInner){
         GenericFilterBuilder builder = new GenericFilterBuilder();
-        builder.setType(type);
+        builder.setNextLink(logicalLinkNextBlock);
+        builder.setInnerLink(logicalLinkInner);
         return builder;
     }
 
@@ -34,6 +40,6 @@ public final class GenericFilterBuilder {
     }
 
     public GenericFilter build(){
-        return new GenericFilter(type, filters);
+        return new GenericFilter(innerLink, nextLink, filters);
     }
 }

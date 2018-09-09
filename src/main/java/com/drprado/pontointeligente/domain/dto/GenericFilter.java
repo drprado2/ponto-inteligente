@@ -4,25 +4,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GenericFilter {
-    private FilterConnectionType filterConnectionType;
+    private FilterConnectionType logicalLinkInnerConditions;
+    private FilterConnectionType logicalLinkNextBlockConditions;
     private List<GenericFilterField> fields;
 
-    public GenericFilter(FilterConnectionType filterConnectionType, List<GenericFilterField> fields) {
-        this.filterConnectionType = filterConnectionType;
+    public FilterConnectionType getLogicalLinkNextBlockConditions() {
+        return logicalLinkNextBlockConditions;
+    }
+
+    public void setLogicalLinkNextBlockConditions(FilterConnectionType logicalLinkNextBlockConditions) {
+        this.logicalLinkNextBlockConditions = logicalLinkNextBlockConditions;
+    }
+
+    public GenericFilter(
+            FilterConnectionType logicalLinkInnerConditions,
+            FilterConnectionType logicalLinkNextBlockConditions,
+            List<GenericFilterField> fields) {
+        this.logicalLinkInnerConditions = logicalLinkInnerConditions;
+        this.logicalLinkNextBlockConditions = logicalLinkNextBlockConditions;
         this.fields = fields;
     }
 
     public GenericFilter() {
-        filterConnectionType = FilterConnectionType.AND;
+        logicalLinkInnerConditions = FilterConnectionType.AND;
         fields = new ArrayList<>();
     }
 
-    public FilterConnectionType getFilterConnectionType() {
-        return filterConnectionType;
+    public FilterConnectionType getLogicalLinkInnerConditions() {
+        return logicalLinkInnerConditions;
     }
 
-    public void setFilterConnectionType(FilterConnectionType filterConnectionType) {
-        this.filterConnectionType = filterConnectionType;
+    public void setLogicalLinkInnerConditions(FilterConnectionType logicalLinkInnerConditions) {
+        this.logicalLinkInnerConditions = logicalLinkInnerConditions;
     }
 
     public List<GenericFilterField> getFields() {

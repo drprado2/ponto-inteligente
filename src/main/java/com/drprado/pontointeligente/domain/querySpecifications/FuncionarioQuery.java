@@ -33,17 +33,17 @@ public final class FuncionarioQuery implements QuerySpecificator<Funcionario> {
         attributes.put("perfil", Funcionario_.perfil);
 
         filterFunctions.put("nome", v -> {
-            if(v instanceof String)
+            if(v instanceof String || v == null)
                 return nameLike((String)v);
             return specNever();
         });
         filterFunctions.put("email", v -> {
-            if(v instanceof String)
+            if(v instanceof String || v == null)
                 return emailLike((String)v);
             return specNever();
         });
         filterFunctions.put("cpf", v -> {
-            if(v instanceof String)
+            if(v instanceof String || v == null)
                 return cpfEquals((String)v);
             return specNever();
         });
@@ -53,7 +53,7 @@ public final class FuncionarioQuery implements QuerySpecificator<Funcionario> {
             return specNever();
         });
         filterFunctions.put("perfil", v -> {
-            if(v != null && v instanceof Set<?>)
+            if(v instanceof Set<?> && (((Set)v).isEmpty() || ((Set)v).iterator().next() instanceof Perfil))
                 return perfilIn((HashSet<Perfil>)v);
             return specNever();
         });
@@ -83,7 +83,7 @@ public final class FuncionarioQuery implements QuerySpecificator<Funcionario> {
         Function<Object, Specification<Funcionario>> func = filterFunctions.getOrDefault(field.getFieldName(), null);
 
         if(func == null)
-            return specAlways();
+            return null;
 
         return func.apply(field.getFieldValue());
     }

@@ -19,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,7 +67,7 @@ public class FuncionarioServiceTest {
     @Test
     public void filtrandoPorNome(){
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("nome", "e 2"))
                         .build())
                 .build();
@@ -80,7 +81,7 @@ public class FuncionarioServiceTest {
     @Test
     public void filtrandoPorCpf(){
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("cpf", "133355"))
                         .build())
                 .build();
@@ -94,7 +95,7 @@ public class FuncionarioServiceTest {
     @Test
     public void filtrandoPorEmail(){
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("email", "2"))
                         .build())
                 .build();
@@ -108,7 +109,7 @@ public class FuncionarioServiceTest {
     @Test
     public void filtrandoPorEmpresa(){
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("empresaId", matriz.getId()))
                         .build())
                 .build();
@@ -124,7 +125,7 @@ public class FuncionarioServiceTest {
         Set<Perfil> perfis = Arrays.asList(Perfil.ROLE_ADMIN).stream().collect(Collectors.toSet());
 
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("perfil", perfis))
                         .build())
                 .build();
@@ -140,11 +141,11 @@ public class FuncionarioServiceTest {
         Set<Perfil> perfis = Arrays.asList(Perfil.ROLE_ADMIN).stream().collect(Collectors.toSet());
 
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("perfil", perfis))
                         .withFilter(new GenericFilterField("nome", "4"))
                         .build())
-                .andFilter(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .andFilter(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                     .withFilter(new GenericFilterField("nome", "2"))
                     .build())
                 .build();
@@ -162,11 +163,11 @@ public class FuncionarioServiceTest {
         Set<Perfil> perfis = Arrays.asList(Perfil.ROLE_USUARIO).stream().collect(Collectors.toSet());
 
         GenericFilters filters = GenericFiltersBuilder
-                .where(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .where(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("perfil", perfis))
                         .withFilter(new GenericFilterField("nome", "1"))
                         .build())
-                .andFilter(GenericFilterBuilder.of(FilterConnectionType.AND)
+                .andFilter(GenericFilterBuilder.of(FilterConnectionType.OR, FilterConnectionType.AND)
                         .withFilter(new GenericFilterField("nome", "2"))
                         .build())
                 .andOrderBy(new GenericOrder("nome", OrderType.ASC))
@@ -179,5 +180,77 @@ public class FuncionarioServiceTest {
         Assert.assertTrue(result.get(0).getNome().equals("Teste 1") && result.get(0).getEmail().equals("teste4@gmail.com"));
         Assert.assertTrue(result.get(1).getNome().equals("Teste 2") && result.get(1).getEmail().equals("teste2@gmail.com"));
         Assert.assertTrue(result.get(2).getNome().equals("Teste 2") && result.get(2).getEmail().equals("teste3@gmail.com"));
+    }
+
+    @Test
+    public void combinandoFiltrosComAnd(){
+        Set<Perfil> perfis = Arrays.asList(Perfil.ROLE_ADMIN).stream().collect(Collectors.toSet());
+
+        GenericFilters filters = GenericFiltersBuilder
+                .where(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.OR)
+                        .withFilter(new GenericFilterField("nome", "2"))
+                        .withFilter(new GenericFilterField("nome", "1"))
+                        .build())
+                .andFilter(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.AND)
+                        .withFilter(new GenericFilterField("perfil", perfis))
+                        .build())
+                .build();
+
+        List<Funcionario> result = funcionarioService.buscaFiltrada(filters);
+
+        Assert.assertEquals(1, result.size());
+        Assert.assertTrue(result.get(0).getNome().equals("Teste 1") && result.get(0).getPerfil().equals(Perfil.ROLE_ADMIN));
+    }
+
+    @Test
+    public void filtrosNulosSemPreenchimentoCamposInexistentesDevemSerIgnorados(){
+        GenericFilters filters = GenericFiltersBuilder
+                .where(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.AND)
+                        .withFilter(new GenericFilterField("nome", ""))
+                        .withFilter(new GenericFilterField("nome", null))
+                        .withFilter(new GenericFilterField("name", "nao tem"))
+                        .build())
+                .build();
+
+        List<Funcionario> result = funcionarioService.buscaFiltrada(filters);
+        List<Funcionario> all = funcionarioRepository.findAll();
+
+        Assert.assertEquals(all.size(), result.size());
+    }
+
+    @Test
+    public void filtrosComTiposErradosNaoDevemVoltarNada(){
+        GenericFilters filterString = GenericFiltersBuilder
+                .where(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.OR)
+                        .withFilter(new GenericFilterField("nome", 24))
+                        .withFilter(new GenericFilterField("nome", 12L))
+                        .withFilter(new GenericFilterField("nome", true))
+                        .build())
+                .build();
+
+        GenericFilters filterLong = GenericFiltersBuilder
+                .where(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.OR)
+                        .withFilter(new GenericFilterField("empresaId", "teste"))
+                        .withFilter(new GenericFilterField("empresaId", true))
+                        .build())
+                .build();
+
+        Set<Empresa> empresas = Arrays.asList(matriz).stream().collect(Collectors.toSet());
+        GenericFilters filterCollection = GenericFiltersBuilder
+                .where(GenericFilterBuilder.of(FilterConnectionType.AND, FilterConnectionType.OR)
+                        .withFilter(new GenericFilterField("perfil", "teste"))
+                        .withFilter(new GenericFilterField("perfil", true))
+                        .withFilter(new GenericFilterField("perfil", 24))
+                        .withFilter(new GenericFilterField("perfil", empresas))
+                        .build())
+                .build();
+
+        List<Funcionario> resultString = funcionarioService.buscaFiltrada(filterString);
+        List<Funcionario> resultLong = funcionarioService.buscaFiltrada(filterLong);
+        List<Funcionario> resultCollection = funcionarioService.buscaFiltrada(filterCollection);
+
+        Assert.assertEquals(0, resultString.size());
+        Assert.assertEquals(0, resultLong.size());
+        Assert.assertEquals(0, resultCollection.size());
     }
 }
