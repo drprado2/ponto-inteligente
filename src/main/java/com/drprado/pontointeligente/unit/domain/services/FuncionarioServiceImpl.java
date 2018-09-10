@@ -1,7 +1,7 @@
 package com.drprado.pontointeligente.unit.domain.services;
 
-import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationResolver;
-import com.drprado.pontointeligente.domain.dto.GenericFilters;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.QuerySpecificationResolver;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilters;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;

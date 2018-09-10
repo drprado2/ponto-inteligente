@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.domain.dto;
+package com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI;
 
 public enum FilterConnectionType {
     AND(0),

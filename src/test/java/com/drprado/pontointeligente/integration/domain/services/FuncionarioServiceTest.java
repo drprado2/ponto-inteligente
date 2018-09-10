@@ -1,8 +1,8 @@
 package com.drprado.pontointeligente.integration.domain.services;
 
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.*;
 import com.drprado.pontointeligente.domain.builders.GenericFilterBuilder;
 import com.drprado.pontointeligente.domain.builders.GenericFiltersBuilder;
-import com.drprado.pontointeligente.domain.dto.*;
 import com.drprado.pontointeligente.domain.entities.Empresa;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.enums.Perfil;

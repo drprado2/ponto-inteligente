@@ -1,8 +1,8 @@
 package com.drprado.pontointeligente.domain.querySpecifications;
 
-import com.drprado.pontointeligente.domain.dto.GenericFilterField;
-import com.drprado.pontointeligente.domain.dto.GenericOrder;
-import com.drprado.pontointeligente.domain.dto.OrderType;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilterField;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericOrder;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.OrderType;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.entities.Funcionario_;
 import com.drprado.pontointeligente.domain.enums.Perfil;
@@ -16,8 +16,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.getLikePattern;
-import static com.drprado.pontointeligente.crosscutting.util.QuerySpecHelper.specNever;
+import static com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.QuerySpecHelper.getLikePattern;
+import static com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.QuerySpecHelper.specNever;
 
 @Component
 public final class FuncionarioQuery implements QuerySpecificator<Funcionario> {

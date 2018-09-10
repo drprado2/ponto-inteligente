@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.domain.dto;
+package com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI;
 
 import java.util.ArrayList;
 import java.util.List;

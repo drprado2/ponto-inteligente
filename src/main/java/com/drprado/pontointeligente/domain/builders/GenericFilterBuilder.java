@@ -1,8 +1,8 @@
 package com.drprado.pontointeligente.domain.builders;
 
-import com.drprado.pontointeligente.domain.dto.FilterConnectionType;
-import com.drprado.pontointeligente.domain.dto.GenericFilter;
-import com.drprado.pontointeligente.domain.dto.GenericFilterField;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.FilterConnectionType;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilter;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilterField;
 
 import java.util.ArrayList;
 import java.util.List;

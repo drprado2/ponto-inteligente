@@ -1,7 +1,7 @@
 package com.drprado.pontointeligente.domain.querySpecifications;
 
-import com.drprado.pontointeligente.domain.dto.GenericFilterField;
-import com.drprado.pontointeligente.domain.dto.GenericOrder;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilterField;
+import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericOrder;
 import com.drprado.pontointeligente.domain.entities.EntidadeBase;
 import org.springframework.data.jpa.domain.Specification;
 

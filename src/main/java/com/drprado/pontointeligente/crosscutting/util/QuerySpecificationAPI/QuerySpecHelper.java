@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.crosscutting.util;
+package com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI;
 
 import org.springframework.data.jpa.domain.Specification;
 

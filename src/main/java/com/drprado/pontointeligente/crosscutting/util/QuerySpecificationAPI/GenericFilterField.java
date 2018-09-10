@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.domain.dto;
+package com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI;
 
 public class GenericFilterField<T extends Object> {
     public GenericFilterField(String fieldName, T fieldValue) {

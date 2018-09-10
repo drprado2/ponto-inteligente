@@ -1,8 +1,5 @@
-package com.drprado.pontointeligente.crosscutting.util;
+package com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI;
 
-import com.drprado.pontointeligente.domain.dto.FilterConnectionType;
-import com.drprado.pontointeligente.domain.dto.GenericFilter;
-import com.drprado.pontointeligente.domain.dto.GenericFilters;
 import com.drprado.pontointeligente.domain.entities.EntidadeBase;
 import com.drprado.pontointeligente.domain.querySpecifications.QuerySpecificator;
 import org.springframework.data.jpa.domain.Specification;
