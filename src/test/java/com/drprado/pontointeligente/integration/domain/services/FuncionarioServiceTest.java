@@ -8,7 +8,7 @@ import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 import com.drprado.pontointeligente.domain.repositories.EmpresaRepository;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
-import com.drprado.pontointeligente.unit.domain.services.FuncionarioService;
+import com.drprado.pontointeligente.domain.services.FuncionarioService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
