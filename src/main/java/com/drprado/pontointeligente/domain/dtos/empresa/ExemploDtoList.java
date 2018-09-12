@@ -1,5 +1,8 @@
 package com.drprado.pontointeligente.domain.dtos.empresa;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -57,9 +60,10 @@ public class ExemploDtoList {
         this.longs = longs;
     }
 
-    @NotNull(message = "")
-    @Size(min = 1)
-    public List<LocalDate> getDatas() {
+    @NotNull(message = "Data é de preenchimento obrigatório")
+    @Size(min = 1, message = "Deve existir pelo menos 1 data")
+    @JsonFormat(pattern = "dd-MM-yyyy")
+    public List<LocalDate > getDatas() {
         return datas;
     }
 
