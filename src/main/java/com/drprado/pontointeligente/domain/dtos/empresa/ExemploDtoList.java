@@ -2,11 +2,13 @@ package com.drprado.pontointeligente.domain.dtos.empresa;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,15 +16,38 @@ public class ExemploDtoList {
     private List<CriarEmpresaDto> empresas;
     private List<Long> longs;
     private List<LocalDate> datas;
+    private List<LocalTime> tempos;
+    private List<LocalDateTime> dataTempo;
     private List<String> textos;
     private List<Double> doubles;
     private List<Boolean> booleans;
     private List<UUID> guids;
     private List<Integer> ints;
 
+    @NotNull(message = "Tempos é de preenchimento obrigatório")
+    @Size(min = 1, message = "Deve ter pelo menos 1 tempo")
+    @JsonFormat(pattern = "HH:mm:ss")
+    public List<LocalTime> getTempos() {
+        return tempos;
+    }
+
+    public void setTempos(List<LocalTime> tempos) {
+        this.tempos = tempos;
+    }
+
+    @NotNull(message = "DataTempo deve ser preenchida")
+    @Size(min = 1, message = "Deve ter pelo menos 1 DataTempo")
+    public List<LocalDateTime> getDataTempo() {
+        return dataTempo;
+    }
+
+    public void setDataTempo(List<LocalDateTime> dataTempo) {
+        this.dataTempo = dataTempo;
+    }
+
     @NotNull(message = "INTS não podem ser nulos")
     @Size(min = 1, message = "Deve conter ao menos 1 INT")
-    public List<Integer> getInts() {
+    public List<@NotNull @Valid @Negative Integer> getInts() {
         return ints;
     }
 
@@ -30,6 +55,8 @@ public class ExemploDtoList {
         this.ints = ints;
     }
 
+    @NotNull(message = "Guids devem ser preenchidos")
+    @Size(min = 1, message = "Guids devem ser preenchidos")
     public List<UUID> getGuids() {
         return guids;
     }
@@ -71,7 +98,12 @@ public class ExemploDtoList {
         this.datas = datas;
     }
 
-    public List<String> getTextos() {
+    @NotNull(message = "Textos devem ser preenchidos")
+    @Size(message = "Textos devem ser preenchidos", min = 1)
+    public List<
+            @Valid
+            @NotBlank(message = "O texto dos textos não pode ser nulo")
+            @Length(min = 5, max = 20, message = "O comprimento dos textos deve estar entre 5 e 20") String> getTextos() {
         return textos;
     }
 
@@ -79,7 +111,11 @@ public class ExemploDtoList {
         this.textos = textos;
     }
 
-    public List<Double> getDoubles() {
+    @NotNull(message = "Doubles deve ser preenchido")
+    @Size(min = 1, message = "Doubles deve ser preenchido")
+    public List<
+            @Valid
+            @PositiveOrZero(message = "Cada double de doubles deve ser positivo ou zero") Double> getDoubles() {
         return doubles;
     }
 
@@ -87,7 +123,9 @@ public class ExemploDtoList {
         this.doubles = doubles;
     }
 
-    public List<Boolean> getBooleans() {
+    @NotNull(message = "O campo Booleans deve ser preenchido")
+    @Size(message = "O campo Booleans deve ser preenchido")
+    public List<@AssertTrue @Valid Boolean> getBooleans() {
         return booleans;
     }
 

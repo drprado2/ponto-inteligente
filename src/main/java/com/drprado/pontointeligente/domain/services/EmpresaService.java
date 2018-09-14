@@ -7,5 +7,7 @@ import java.util.Optional;
 public interface EmpresaService {
     Optional<Empresa> buscarPorCNPJ(String cnpj);
 
+    void lancarErro();
+
     Empresa salvar(Empresa empresa);
 }

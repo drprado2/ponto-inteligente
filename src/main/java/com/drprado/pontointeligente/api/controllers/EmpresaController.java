@@ -32,12 +32,6 @@ public class EmpresaController {
     @Autowired
     private EmpresaService empresaService;
 
-    // Trata o HTTP STATUS CODE de alguma exceção que veia ocorrer no programa
-    @ExceptionHandler({ MyCustomException.class })
-    public ResponseEntity<Object> handleAll(MyCustomException error, WebRequest request) {
-        return ResponseEntity.badRequest().body("Ocorreu um erro customizado: " + error.getMessage());
-    }
-
     @GetMapping("/hello")
     public ResponseEntity<String> hello(@RequestParam(name = "nome") String nome){
         return new ResponseEntity<>("Olá " + nome, HttpStatus.OK);
@@ -61,7 +55,13 @@ public class EmpresaController {
 
     @GetMapping("/exceptions")
     public ResponseEntity exceptions(){
-        throw new MyCustomException("Meu Erro Genéricos");
+        empresaService.lancarErro();
+        return ResponseEntity.badRequest().body(null);
+    }
+
+    @GetMapping("/unex-error")
+    public ResponseEntity unexpectedEx(){
+        throw new Error("ERRO INESPERADO!!!");
     }
 
     @PostMapping("/type-param")
@@ -74,7 +74,6 @@ public class EmpresaController {
 
             return ResponseEntity.badRequest().body(errosTratados);
         }
-
         return ResponseEntity.ok().body("Funcionou");
     }
 
@@ -88,7 +87,6 @@ public class EmpresaController {
 
             return ResponseEntity.badRequest().body(errosTratados);
         }
-
         return ResponseEntity.ok("Funcionou com sucesso");
     }
 }

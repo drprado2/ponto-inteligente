@@ -1,0 +1,25 @@
+{
+  "empresas": [
+    {
+      "email": "drprado2@gmail.com",
+      "cnpj": "92.507.936/0001-21",
+      "razaoSocial": "Shield Tech",
+      "dateTime": "11/09/2018 13:08:44",
+      "date": "11-09-2018",
+      "time": "10:24"
+    }
+  ],
+  "longs": [
+    2555555555555555555
+  ],
+  "ints": [
+    -10
+  ],
+  "datas": ["11-09-2018"],
+  "dataTempo": ["2018-09-14T11:29:31.829Z"],
+  "tempos": ["08:30:15"],
+  "textos": ["teste1", "abaaa", "abcdefabcdefabcf"],
+  "doubles": [0],
+  "booleans": [true, true],
+  "guids": ["561d1cc4-c7b5-431e-94a7-e0c2ed9a8d2"]
+}
