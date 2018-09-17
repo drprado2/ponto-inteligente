@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.domain.services;
+package com.drprado.pontointeligente.unit.domain.services;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.QuerySpecificationResolver;
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilters;
@@ -11,11 +11,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService{
+
+    @PersistenceContext
+    EntityManager em;
 
     @Autowired
     private FuncionarioRepository funcionarioRepository;

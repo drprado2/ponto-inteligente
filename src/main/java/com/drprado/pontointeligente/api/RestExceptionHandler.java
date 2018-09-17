@@ -20,7 +20,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     // Trata todos os erros relacionados a desserialização da REQUEST
     @Override
     protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Object[]{"Ocorreu um erro na desserialização da sua requisição", ex.getMessage()});
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new Object[]{"Ocorreu um erro na desserialização da sua requisição", ex.getMessage()});
     }
 
     @ExceptionHandler(MyCustomException.class)
@@ -32,8 +32,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleUnexpectedExceptions(Error ex){
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new Object[]{"Ocorreu um erro INESPERADO", ex.getMessage()});
     }
-
-
-    //other exception handlers below
-
 }

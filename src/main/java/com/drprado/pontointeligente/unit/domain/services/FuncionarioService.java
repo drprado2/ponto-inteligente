@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.domain.services;
+package com.drprado.pontointeligente.unit.domain.services;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilters;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
