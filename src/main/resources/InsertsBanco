@@ -1,0 +1,36 @@
+SELECT * FROM ponto_inteligente.lancamento;
+SELECT * FROM ponto_inteligente.funcionario;
+SELECT * FROM ponto_inteligente.empresa;
+
+INSERT INTO ponto_inteligente.empresa VALUES 
+(1, '13363217000108', NOW(), NOW(), 'Shield Tech'),
+(2, '13363217000108', NOW(), NOW(), 'Cronos Tech');
+
+INSERT INTO ponto_inteligente.funcionario values 
+(1, '08657287986', NOW(), NOW(), 'adriano@gmail.com', 'Adriano', 'ROLE_ADMIN', 12.1, 11.1, '102030', 2,  1),
+(2, '43874671348', NOW(), NOW(), 'maria@gmail.com', 'Maria', 'ROLE_ADMIN', 11.1, 10.1, '102030', 2,  2),
+(3, '38384987718', NOW(), NOW(), 'roberto@gmail.com', 'Roberto', 'ROLE_USUARIO', 10.1, 9.1, '102030', 2,  1),
+(4, '83667244177', NOW(), NOW(), 'joquim@gmail.com', 'Joquim', 'ROLE_USUARIO', 9.1, 8.1, '102030', 2,  2);
+
+
+INSERT INTO ponto_inteligente.lancamento values
+(1, NOW(), NOW(), NOW(), 'Adriano iniciando Trabalho', 'Empresa', 'INICIO_TRABALHO', 1),
+(2, NOW(), NOW(), NOW(), 'Adriano iniciando almoço', 'Empresa', 'INICIO_ALMOCO', 1),
+(3, NOW(), NOW(), NOW(), 'Adriano retornando almoço', 'Empresa', 'TERMINO_ALMOCO', 1),
+(4, NOW(), NOW(), NOW(), 'Adriano concluíndo trabalho', 'Empresa', 'TERMINO_TRABALHO', 1),
+
+(5, NOW(), NOW(), NOW(), 'Maria iniciando Trabalho', 'Empresa', 'INICIO_TRABALHO', 2),
+(6, NOW(), NOW(), NOW(), 'Maria iniciando almoço', 'Empresa', 'INICIO_ALMOCO', 2),
+(7, NOW(), NOW(), NOW(), 'Maria retornando almoço', 'Empresa', 'TERMINO_ALMOCO', 2),
+(8, NOW(), NOW(), NOW(), 'Maria concluíndo Trabalho', 'Empresa', 'TERMINO_TRABALHO', 2),
+
+(9, NOW(), NOW(), NOW(), 'Roberto iniciando Trabalho', 'Empresa', 'INICIO_TRABALHO', 3),
+(10, NOW(), NOW(), NOW(), 'Roberto iniciando almoço', 'Empresa', 'INICIO_ALMOCO', 3),
+(11, NOW(), NOW(), NOW(), 'Roberto retornando almoço', 'Empresa', 'TERMINO_ALMOCO', 3),
+(12, NOW(), NOW(), NOW(), 'Roberto concluíndo Trabalho', 'Empresa', 'TERMINO_TRABALHO', 3),
+
+(13, NOW(), NOW(), NOW(), 'Joquim iniciando Trabalho', 'Empresa', 'INICIO_TRABALHO', 4),
+(14, NOW(), NOW(), NOW(), 'Joquim iniciando almoço', 'Empresa', 'INICIO_ALMOCO', 4),
+(15, NOW(), NOW(), NOW(), 'Joquim retornando almoço', 'Empresa', 'TERMINO_ALMOCO', 4),
+(16, NOW(), NOW(), NOW(), 'Joquim concluíndo Trabalho', 'Empresa', 'TERMINO_TRABALHO', 4);
+
