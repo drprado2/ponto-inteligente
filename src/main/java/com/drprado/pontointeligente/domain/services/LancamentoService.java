@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.unit.domain.services;
+package com.drprado.pontointeligente.domain.services;
 
 import com.drprado.pontointeligente.domain.entities.Lancamento;
 import org.springframework.data.domain.Page;

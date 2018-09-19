@@ -2,7 +2,10 @@ package com.drprado.pontointeligente.api.controllers;
 
 import com.drprado.pontointeligente.domain.dtos.empresa.CriarEmpresaDto;
 import com.drprado.pontointeligente.domain.dtos.empresa.ExemploDtoList;
-import com.drprado.pontointeligente.unit.domain.services.EmpresaService;
+import com.drprado.pontointeligente.domain.reports.TestReport;
+import com.drprado.pontointeligente.domain.reports.TestReportGenerator;
+import com.drprado.pontointeligente.domain.repositories.TestReportRepository;
+import com.drprado.pontointeligente.domain.services.EmpresaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,12 @@ public class EmpresaController {
 
     @Autowired
     private EmpresaService empresaService;
+
+    @Autowired
+    private TestReportGenerator relatorio;
+
+    @Autowired
+    private TestReportRepository testReportRepository;
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello(@RequestParam(name = "nome") String nome){
@@ -81,5 +90,12 @@ public class EmpresaController {
             return ResponseEntity.badRequest().body(null);
         }
         return ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/relatorio")
+    public ResponseEntity<List<TestReport>> relatorio(){
+        List<TestReport> result = relatorio.generate();
+        List<TestReport> all = testReportRepository.findAll();
+        return ResponseEntity.ok(result);
     }
 }
