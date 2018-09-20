@@ -94,7 +94,7 @@ public class EmpresaController {
 
     @GetMapping("/relatorio")
     public ResponseEntity<List<TestReport>> relatorio(){
-        List<TestReport> result = relatorio.generate();
+        List<TestReport> result = relatorio.generateEM();
         List<TestReport> all = testReportRepository.findAll();
         return ResponseEntity.ok(result);
     }

@@ -22,9 +22,9 @@ import java.util.UUID;
         "       la.localizacao as lancamentoLocalizacao," +
         "       la.tipo as lancamentoTipo," +
         "       la.data as lancamentoData" +
-        "  FROM ponto_inteligente.empresa as em" +
-        "  LEFT JOIN ponto_inteligente.funcionario as fu on (em.id = fu.empresa_id)" +
-        "  LEFT JOIN ponto_inteligente.lancamento as la on (fu.id = la.funcionario_id)" +
+        "  FROM empresa as em" +
+        "  LEFT JOIN funcionario as fu on (em.id = fu.empresa_id)" +
+        "  LEFT JOIN lancamento as la on (fu.id = la.funcionario_id)" +
         "  ORDER BY lancamentoData desc, empresaRazaoSocial asc, funcionarioNome asc"
 )
 public class TestReport {

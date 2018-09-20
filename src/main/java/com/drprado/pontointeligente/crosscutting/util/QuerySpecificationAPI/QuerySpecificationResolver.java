@@ -12,7 +12,7 @@ public final class QuerySpecificationResolver {
     private QuerySpecificationResolver() {
     }
 
-    public static <T extends EntidadeBase> Specification<T> resolveFilters(
+    public static <T> Specification<T> resolveFilters(
             QuerySpecificator<T> specificator, GenericFilters filters) {
 
         Specification<T> finalSpec = null;

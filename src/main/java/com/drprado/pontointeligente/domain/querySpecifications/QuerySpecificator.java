@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
-public interface QuerySpecificator<T extends EntidadeBase> {
+public interface QuerySpecificator<T> {
 
     Specification<T> getFilterSpec(GenericFilterField field);
 
