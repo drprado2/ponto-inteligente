@@ -127,8 +127,8 @@ public class Funcionario extends EntidadeBase implements Serializable {
         return senha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = CustomPasswordEncrypter.Encrypt(senha);
+    protected void setSenha(String senha) {
+        this.senha = senha;
     }
 
     // Muitos de mim para um dele, ou seja muitos funcionarios para 1 empresa

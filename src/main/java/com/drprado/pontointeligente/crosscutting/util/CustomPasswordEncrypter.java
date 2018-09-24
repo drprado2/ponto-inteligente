@@ -2,7 +2,9 @@ package com.drprado.pontointeligente.crosscutting.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class CustomPasswordEncrypter implements PasswordEncoder {
 
     private static final String SALT = "1#@abc777889911";
@@ -19,6 +21,7 @@ public class CustomPasswordEncrypter implements PasswordEncoder {
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return bCryptEncoder.encode(rawPassword + SALT) == encodedPassword;
+        String encode = bCryptEncoder.encode(rawPassword + SALT);
+        return encode == encodedPassword;
     }
 }

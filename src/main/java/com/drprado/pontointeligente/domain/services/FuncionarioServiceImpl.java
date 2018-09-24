@@ -2,6 +2,7 @@ package com.drprado.pontointeligente.domain.services;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.QuerySpecificationResolver;
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilters;
+import com.drprado.pontointeligente.domain.dtos.funcionarios.FuncionarioDto;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
@@ -39,11 +40,6 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     }
 
     @Override
-    public Optional<Funcionario> buscarPorEmail(String email) {
-        return Optional.ofNullable(funcionarioRepository.findByEmail(email));
-    }
-
-    @Override
     public Optional<Funcionario> buscarPorId(Long id) {
         return Optional.ofNullable(funcionarioRepository.getOne(id));
     }
@@ -62,5 +58,12 @@ public class FuncionarioServiceImpl implements FuncionarioService{
         finalSpec = finalSpec.and(QuerySpecificationResolver.resolveOrders(funcionarioQuery, filters));
 
         return funcionarioRepository.findAll(finalSpec, pageable);
+    }
+
+    @Override
+    public Funcionario criarFuncionario(FuncionarioDto dto) {
+        Funcionario funcionario = new Funcionario(dto.getEmpresaId(), dto.getNome(), dto.getEmail(), dto.getSenha(), dto.getCpf());
+        funcionario = funcionarioRepository.saveAndFlush(funcionario);
+        return funcionario;
     }
 }

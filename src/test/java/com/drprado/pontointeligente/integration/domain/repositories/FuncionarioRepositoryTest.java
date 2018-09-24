@@ -18,10 +18,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -84,9 +81,9 @@ public class FuncionarioRepositoryTest {
     public void filtrandoPorEmail(){
         final String emailFiltrar = "teste1@gmail.com";
 
-        Funcionario funcFiltrado = funcionarioRepository.findByEmail(emailFiltrar);
+        Optional<Funcionario> funcFiltrado = funcionarioRepository.findByEmail(emailFiltrar);
 
-        assertEquals(emailFiltrar, funcFiltrado.getEmail());
+        assertEquals(emailFiltrar, funcFiltrado.get().getEmail());
     }
 
     @Test

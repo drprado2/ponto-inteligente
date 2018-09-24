@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security;
+package com.drprado.pontointeligente.security.services;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.FilterConnectionType;
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilter;
@@ -7,13 +7,17 @@ import com.drprado.pontointeligente.domain.builders.GenericFilterBuilder;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import com.drprado.pontointeligente.domain.querySpecifications.FuncionarioQuery;
 import com.drprado.pontointeligente.domain.repositories.FuncionarioRepository;
+import com.drprado.pontointeligente.security.UserSecurity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ResolvedorUsuarioAutenticao implements UserDetailsService {
 
     @Autowired

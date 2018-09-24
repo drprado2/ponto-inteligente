@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security;
+package com.drprado.pontointeligente.security.acessos;
 
 import org.springframework.security.core.GrantedAuthority;
 

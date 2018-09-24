@@ -1,6 +1,7 @@
 package com.drprado.pontointeligente.domain.services;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilters;
+import com.drprado.pontointeligente.domain.dtos.funcionarios.FuncionarioDto;
 import com.drprado.pontointeligente.domain.entities.Funcionario;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,11 +14,11 @@ public interface FuncionarioService {
 
     Optional<Funcionario> buscarPorCpf(String cpf);
 
-    Optional<Funcionario> buscarPorEmail(String email);
-
     Optional<Funcionario> buscarPorId(Long id);
 
     List<Funcionario> buscaFiltrada(GenericFilters filters);
 
     Page<Funcionario> buscaFiltrada(GenericFilters filters, Pageable pageable);
+
+    Funcionario criarFuncionario(FuncionarioDto dto);
 }
