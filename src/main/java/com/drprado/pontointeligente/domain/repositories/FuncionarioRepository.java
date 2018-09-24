@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
+import java.util.Optional;
 import java.util.Set;
 
 @Transactional(readOnly = true)
@@ -12,7 +14,7 @@ public interface FuncionarioRepository extends JpaRepository<Funcionario, Long>,
 
     Funcionario findByCpf(String cpf);
 
-    Funcionario findByEmail(String email);
+    Optional<Funcionario> findByEmail(String email);
 
     // Esse OR é outra convenção, ele cria um  WHERE OR
     Funcionario findByCpfOrEmail(String cpf, String email);

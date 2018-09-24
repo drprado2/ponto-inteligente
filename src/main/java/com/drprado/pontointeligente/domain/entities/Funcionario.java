@@ -1,5 +1,6 @@
 package com.drprado.pontointeligente.domain.entities;
 
+import com.drprado.pontointeligente.crosscutting.util.CustomPasswordEncrypter;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.empresaId = empresaId;
         this.nome = nome;
         this.email = email;
-        this.senha = senha;
+        this.senha = CustomPasswordEncrypter.Encrypt(senha);
         this.cpf = cpf;
         perfil = Perfil.ROLE_USUARIO;
     }
@@ -127,7 +128,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        this.senha = CustomPasswordEncrypter.Encrypt(senha);
     }
 
     // Muitos de mim para um dele, ou seja muitos funcionarios para 1 empresa
