@@ -7,12 +7,14 @@ import com.drprado.pontointeligente.security.services.JwtHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +58,14 @@ public class SecurityController {
 
             return ResponseEntity.ok(response);
 
+        }catch (BadCredentialsException error){
+            List<String> errors = Arrays.asList("Senha inválida");
+            response.setErrors(errors);
+            return ResponseEntity.badRequest().body(response);
+        }catch (UsernameNotFoundException error){
+            List<String> errors = Arrays.asList("Usuário inexistente");
+            response.setErrors(errors);
+            return ResponseEntity.badRequest().body(response);
         }catch (Throwable error){
             List<String> errors = Arrays.asList(error.getMessage());
             response.setErrors(errors);
