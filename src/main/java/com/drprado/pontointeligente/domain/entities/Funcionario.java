@@ -1,6 +1,6 @@
 package com.drprado.pontointeligente.domain.entities;
 
-import com.drprado.pontointeligente.crosscutting.util.CustomPasswordEncrypter;
+import com.drprado.pontointeligente.crosscutting.util.PasswordUtils;
 import com.drprado.pontointeligente.domain.enums.Perfil;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
         this.empresaId = empresaId;
         this.nome = nome;
         this.email = email;
-        this.senha = CustomPasswordEncrypter.Encrypt(senha);
+        this.senha = PasswordUtils.gerarBCrypt(senha);
         this.cpf = cpf;
         perfil = Perfil.ROLE_USUARIO;
     }

@@ -10,12 +10,10 @@ import java.io.IOException;
 
 @Component
 public class SecurityExceptionsHandler implements AuthenticationEntryPoint {
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
-        response.setStatus(400);
-        response.getWriter().write("Usuário ou senha inválidos");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                "Acesso negado. Você deve estar autenticado no sistema para acessar a URL solicitada.");
     }
-
 }

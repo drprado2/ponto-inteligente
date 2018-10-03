@@ -4,12 +4,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtHelper {
@@ -95,8 +95,9 @@ public class JwtHelper {
     public String obterToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-        userDetails.getAuthorities().forEach(authority -> claims.put(CLAIM_KEY_ROLE, authority.getAuthority()));
+        claims.put(CLAIM_KEY_ROLE, userDetails.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.toList()));
         claims.put(CLAIM_KEY_CREATED, new Date());
+        claims.put("My Special Claim", userDetails);
 
         return gerarToken(claims);
     }

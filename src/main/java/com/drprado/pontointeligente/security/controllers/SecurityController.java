@@ -38,8 +38,8 @@ public class SecurityController {
 
     @PostMapping
     public ResponseEntity<Response<TokenDto>> gerarTokenJwt(
-            @Valid @RequestBody LoginDto authenticationDto, BindingResult result)
-            throws AuthenticationException {
+            @Valid @RequestBody LoginDto authenticationDto, BindingResult result) throws AuthenticationException {
+
         Response<TokenDto> response = new Response<TokenDto>();
 
         if (result.hasErrors()) {
@@ -50,6 +50,7 @@ public class SecurityController {
         try{
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     authenticationDto.getUsername(), authenticationDto.getPassword()));
+
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationDto.getUsername());

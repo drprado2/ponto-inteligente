@@ -1,8 +1,7 @@
 package com.drprado.pontointeligente.security.config;
 
 
-import com.drprado.pontointeligente.crosscutting.util.CustomPasswordEncrypter;
-import com.drprado.pontointeligente.security.filters.JWTAuthenticationFilter;
+import com.drprado.pontointeligente.security.filters.JwtAuthenticationTokenFilter;
 import com.drprado.pontointeligente.security.services.ResolvedorUsuarioAutenticao;
 import com.drprado.pontointeligente.security.services.SecurityExceptionsHandler;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +14,16 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ConfiguradorSeguranca extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -30,40 +32,40 @@ public class ConfiguradorSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityExceptionsHandler securityExceptionsHandler;
 
-    @Autowired
-    private CustomPasswordEncrypter customPasswordEncrypter;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
-    // Com esse método podemos ignorar requests
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web
-                .ignoring()
-                .antMatchers("/resources/**"); // #3
+    @Bean
+    public JwtAuthenticationTokenFilter authenticationTokenFilterBean() throws Exception {
+        return new JwtAuthenticationTokenFilter();
     }
 
     // ************* JWT AUTH
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-//                .exceptionHandling().authenticationEntryPoint(securityExceptionsHandler)
-//                .and()
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST,"/api/login").permitAll()
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .csrf().disable()
+            .exceptionHandling().authenticationEntryPoint(securityExceptionsHandler)
+            .and().authorizeRequests()
+                .antMatchers(HttpMethod.POST,"/api/login", "/api/funcionarios/").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JWTAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
     public AuthenticationProvider getAuthenticationProvider() {
         DaoAuthenticationProvider impl = new DaoAuthenticationProvider();
         impl.setUserDetailsService(resolvedorUsuarioAutenticao);
-        impl.setPasswordEncoder(customPasswordEncrypter);
+        impl.setPasswordEncoder(passwordEncoder());
         impl.setHideUserNotFoundExceptions(false) ;
         return impl ;
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    public void configureAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(getAuthenticationProvider());
     }
 

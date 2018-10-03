@@ -19,7 +19,7 @@ public class UserSecurity implements UserDetails {
 
     public UserSecurity(Funcionario funcionario) {
         password = funcionario.getSenha();
-        username = funcionario.getNome();
+        username = funcionario.getEmail();
         isAccountNonExpired = true;
         isAccountNonLocked = true;
         isCredentialsNonExpired = true;
