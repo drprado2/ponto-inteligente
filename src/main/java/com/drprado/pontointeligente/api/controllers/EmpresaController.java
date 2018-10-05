@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +36,7 @@ public class EmpresaController {
     private TestReportRepository testReportRepository;
 
     @GetMapping("/hello")
+    @Secured("ROLE_PROFESSOR")
     public ResponseEntity<String> hello(@RequestParam(name = "nome") String nome){
         return new ResponseEntity<>("Olá " + nome, HttpStatus.OK);
     }

@@ -31,6 +31,7 @@ import org.springframework.boot.test.json.ObjectContent;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -50,7 +51,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 @RunWith(SpringRunner.class)
-@AutoConfigureMockMvc(secure = false)
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class EmpresaControllerTest {
@@ -81,6 +82,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void whenExecuteHelloShouldReturnHelloAndStatusCode200() throws Exception {
         ResultActions perform = mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/empresas/hello")
@@ -93,6 +95,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void shouldReturnAnError() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/empresas/erro"));
 
@@ -104,6 +107,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void shouldCreateACookie() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/empresas/cookies"));
 
@@ -114,6 +118,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void whenExistsACookieShouldReturnContentWithCookieValue() throws Exception {
         Cookie cookie = new Cookie("meu-cookie", "Teste Cookie");
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/empresas/cookies").cookie(cookie));
@@ -125,6 +130,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void shouldReturnATratedErrorWhenExceptionOccur() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/empresas/exceptions"));
 
@@ -138,6 +144,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void whenAUnexpectedExceptionOccurrShouldReturnATratedError() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.get("/api/empresas/unex-error"));
 
@@ -150,6 +157,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void shouldReturnOk() throws Exception {
         JSONObject jsonRequest = new JSONObject();
 
@@ -187,6 +195,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void ifRequestToListComingWithoutBodyRequestShouldReturnAnError() throws Exception {
         ResultActions result = mockMvc.perform(MockMvcRequestBuilders.post("/api/empresas/listas"));
         result.andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -195,6 +204,7 @@ public class EmpresaControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "adriano@gmail.com", roles = {"MASTER", "PROFESSOR"})
     public void requestListShouldReturnOk() throws Exception {
         JSONObject jsonResult = new JSONObject();
 
