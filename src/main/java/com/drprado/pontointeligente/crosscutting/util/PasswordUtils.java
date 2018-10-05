@@ -17,7 +17,7 @@ public class PasswordUtils {
             return senha;
         }
 
-        BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder();
+        BCryptPasswordEncoder bCryptEncoder = new BCryptPasswordEncoder(12);
         return bCryptEncoder.encode(senha);
     }
 

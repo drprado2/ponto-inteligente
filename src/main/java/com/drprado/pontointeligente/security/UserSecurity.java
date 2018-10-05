@@ -1,10 +1,10 @@
 package com.drprado.pontointeligente.security;
 
 import com.drprado.pontointeligente.domain.entities.Funcionario;
-import com.drprado.pontointeligente.security.acessos.GrupoAcesso;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserSecurity implements UserDetails {
@@ -15,7 +15,7 @@ public class UserSecurity implements UserDetails {
     private boolean isAccountNonLocked;
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
-    private Collection<? extends GrantedAuthority> authorities;
+    private Collection<GrantedAuthority> authorities;
 
     public UserSecurity(Funcionario funcionario) {
         password = funcionario.getSenha();
@@ -24,11 +24,14 @@ public class UserSecurity implements UserDetails {
         isAccountNonLocked = true;
         isCredentialsNonExpired = true;
         isEnabled = true;
-        authorities = GrupoAcesso.acessoAnalista().getPermissions();
+        authorities = new ArrayList<>();
+        authorities.add(() -> "ROLE_VIEWER");
+        authorities.add(() -> "ROLE_MANAGER");
+        authorities.add(() -> "ROLE_MASTER");
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return authorities;
     }
 

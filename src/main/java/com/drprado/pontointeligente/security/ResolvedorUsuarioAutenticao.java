@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security.services;
+package com.drprado.pontointeligente.security;
 
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.FilterConnectionType;
 import com.drprado.pontointeligente.crosscutting.util.QuerySpecificationAPI.GenericFilter;

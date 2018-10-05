@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security.services;
+package com.drprado.pontointeligente.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
