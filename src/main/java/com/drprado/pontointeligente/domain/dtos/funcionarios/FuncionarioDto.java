@@ -14,6 +14,7 @@ public class FuncionarioDto {
     private Float qtdHorasAlmoco;
     private Perfil perfil;
     private Long empresaId;
+    private Long id;
 
     public FuncionarioDto(String nome, String email, String senha, String cpf, BigDecimal valorHora, Float qtdHorasTrabalhoDia, Float qtdHorasAlmoco, Perfil perfil, Long empresaId) {
         this.nome = nome;
@@ -28,6 +29,14 @@ public class FuncionarioDto {
     }
 
     public FuncionarioDto() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {

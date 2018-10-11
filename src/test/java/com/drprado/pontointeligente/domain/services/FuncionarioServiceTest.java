@@ -36,17 +36,6 @@ public class FuncionarioServiceTest {
     }
 
     @Test
-    public void criandoFuncionarioValido(){
-        Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", "10222");
-        Mockito.when(mockFuncionarioRepository.save(funcionario)).thenReturn(funcionario);
-
-        Funcionario result = funcionarioService.salvar(funcionario);
-
-        Mockito.verify(mockFuncionarioRepository, Mockito.times(1)).save(funcionario);
-        assertEquals(funcionario.getNome(), result.getNome());
-    }
-
-    @Test
     public void buscandoFuncionarioPorCpf(){
         final String CPF = "08655577796";
         Funcionario funcionario = new Funcionario(mockEmpresa.getId(),"Adriano", "adriano@gmail.com", "102030", CPF);

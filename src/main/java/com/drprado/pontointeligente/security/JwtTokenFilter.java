@@ -32,6 +32,11 @@ public class JwtTokenFilter extends GenericFilterBean {
             }
         } catch (AuthenticationExpiredException ex) {
             HttpServletResponse response = (HttpServletResponse) res;
+            response.getWriter().write(ex.getMessage());
+            response.setContentType("text/html; charset=UTF-8");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().flush();
+            response.getWriter().close();
             response.sendError(440, ex.getMessage());
             return;
         }

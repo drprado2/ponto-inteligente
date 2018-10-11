@@ -24,7 +24,7 @@ public class FuncionarioController {
     @PostMapping("/")
     @Secured("ROLE_MASTER")
     public ResponseEntity<Funcionario> criar(@RequestBody FuncionarioDto request){
-        Funcionario funcionario = funcionarioService.criarFuncionario(request);
+        Funcionario funcionario = funcionarioService.criar(request);
         return ResponseEntity.ok(funcionario);
     }
 }

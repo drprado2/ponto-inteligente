@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface FuncionarioService {
-    Funcionario salvar(Funcionario funcionario);
-
     Optional<Funcionario> buscarPorCpf(String cpf);
 
     Optional<Funcionario> buscarPorId(Long id);
@@ -20,5 +18,7 @@ public interface FuncionarioService {
 
     Page<Funcionario> buscaFiltrada(GenericFilters filters, Pageable pageable);
 
-    Funcionario criarFuncionario(FuncionarioDto dto);
+    Funcionario criar(FuncionarioDto dto);
+
+    Funcionario atualizar(FuncionarioDto dto);
 }

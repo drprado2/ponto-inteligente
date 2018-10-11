@@ -8,7 +8,7 @@ CREATE TABLE `empresa` (
 
 CREATE TABLE `funcionario` (
   `id` bigint(20) NOT NULL,
-  `cpf` varchar(255) NOT NULL,
+  `cpf` varchar(255) NULL,
   `data_atualizacao` datetime NOT NULL,
   `data_criacao` datetime NOT NULL,
   `email` varchar(255) NOT NULL,
@@ -16,7 +16,7 @@ CREATE TABLE `funcionario` (
   `perfil` varchar(255) NOT NULL,
   `qtd_horas_almoco` float DEFAULT NULL,
   `qtd_horas_trabalho_dia` float DEFAULT NULL,
-  `senha` varchar(255) NOT NULL,
+  `senha` varchar(255) NULL,
   `valor_hora` decimal(19,2) DEFAULT NULL,
   `empresa_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

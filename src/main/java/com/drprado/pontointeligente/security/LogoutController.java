@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security.auth0;
+package com.drprado.pontointeligente.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,15 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings("unused")
 @Controller
+@RequestMapping("/api/logout")
 public class LogoutController {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     protected String logout(final HttpServletRequest req) {
-        logger.debug("Performing logout");
         invalidateSession(req);
-        return "redirect:" + req.getContextPath() + "/login";
+        return "redirect:" + req.getContextPath() + "/api/login/";
     }
 
     private void invalidateSession(HttpServletRequest request) {

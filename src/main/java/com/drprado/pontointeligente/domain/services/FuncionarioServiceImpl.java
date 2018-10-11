@@ -30,11 +30,6 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     private FuncionarioQuery funcionarioQuery;
 
     @Override
-    public Funcionario salvar(Funcionario funcionario) {
-        return funcionarioRepository.save(funcionario);
-    }
-
-    @Override
     public Optional<Funcionario> buscarPorCpf(String cpf) {
         return Optional.ofNullable(funcionarioRepository.findByCpf(cpf));
     }
@@ -61,9 +56,22 @@ public class FuncionarioServiceImpl implements FuncionarioService{
     }
 
     @Override
-    public Funcionario criarFuncionario(FuncionarioDto dto) {
+    public Funcionario criar(FuncionarioDto dto) {
         Funcionario funcionario = new Funcionario(dto.getEmpresaId(), dto.getNome(), dto.getEmail(), dto.getSenha(), dto.getCpf());
         funcionario = funcionarioRepository.saveAndFlush(funcionario);
         return funcionario;
+    }
+
+    @Override
+    public Funcionario atualizar(FuncionarioDto dto) {
+        Funcionario funcionario = funcionarioRepository.findById(dto.getId()).get();
+        funcionario.setPerfil(dto.getPerfil());
+        funcionario.setCpf(dto.getCpf());
+        funcionario.setEmail(dto.getEmail());
+        funcionario.setEmpresaId(dto.getEmpresaId());
+        funcionario.setNome(dto.getNome());
+        funcionario.setQtdHorasAlmoco(dto.getQtdHorasAlmoco());
+        funcionario.setQtdHorasTrabalhoDia(dto.getQtdHorasTrabalhoDia());
+        return funcionarioRepository.saveAndFlush(funcionario);
     }
 }

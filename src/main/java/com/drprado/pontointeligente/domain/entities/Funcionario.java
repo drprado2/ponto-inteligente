@@ -122,7 +122,7 @@ public class Funcionario extends EntidadeBase implements Serializable {
     }
 
 
-    @Column(name = "senha", nullable = false)
+    @Column(name = "senha", nullable = true)
     public String getSenha() {
         return senha;
     }

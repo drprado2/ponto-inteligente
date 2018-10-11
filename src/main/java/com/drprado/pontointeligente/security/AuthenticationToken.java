@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security.auth0;
+package com.drprado.pontointeligente.security;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -8,12 +8,11 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
 
-public class TokenAuthentication extends AbstractAuthenticationToken {
-
+public class AuthenticationToken extends AbstractAuthenticationToken {
     private final DecodedJWT jwt;
     private boolean invalidated;
 
-    public TokenAuthentication(DecodedJWT jwt) {
+    public AuthenticationToken(DecodedJWT jwt) {
         super(readAuthorities(jwt));
         this.jwt = jwt;
     }
@@ -23,7 +22,7 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
     }
 
     private static Collection<? extends GrantedAuthority> readAuthorities(DecodedJWT jwt) {
-        Claim rolesClaim = jwt.getClaim("https://access.control/roles");
+        Claim rolesClaim = jwt.getClaim("roles");
         if (rolesClaim.isNull()) {
             return Collections.emptyList();
         }
@@ -46,7 +45,7 @@ public class TokenAuthentication extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return jwt.getSubject();
+        return jwt.getClaim("userInfo");
     }
 
     @Override

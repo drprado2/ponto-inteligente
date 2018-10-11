@@ -36,7 +36,7 @@ public class EmpresaController {
     private TestReportRepository testReportRepository;
 
     @GetMapping("/hello")
-    @Secured("ROLE_PROFESSOR")
+    @Secured("ROLE_VIEWER")
     public ResponseEntity<String> hello(@RequestParam(name = "nome") String nome){
         return new ResponseEntity<>("Olá " + nome, HttpStatus.OK);
     }

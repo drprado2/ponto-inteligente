@@ -1,4 +1,4 @@
-package com.drprado.pontointeligente.security.auth0;
+package com.drprado.pontointeligente.security;
 
 
 import org.slf4j.Logger;
