@@ -13,6 +13,7 @@ import com.drprado.pontointeligente.domain.services.FuncionarioService;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -51,7 +52,7 @@ public class LoginController {
         String redirectUri = req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + "/api/login/callback";
         String authorizeUrl = controller.buildAuthorizeUrl(req, redirectUri)
                 .withAudience(String.format("https://%s/userinfo", auth0Configs.getDomain()))
-                .withScope("openid profile email")
+                .withScope("openid profile email user_metadata")
                 .build();
         return "redirect:" + authorizeUrl;
     }
@@ -110,6 +111,13 @@ public class LoginController {
                 .header("Authorization", "Bearer " + tokens.getAccessToken())
                 .asString();
         UserInfoDto userInfoDto = JsonDeserializer.getInstance().readValue(response.getBody(), UserInfoDto.class);
+        JSONObject jsonObj = new JSONObject(response.getBody());
+        String nameKey = jsonObj.keySet().stream().filter(k -> ((String) k).matches("^.*domain.name$")).findFirst().get().toString();
+        String cpfKey = jsonObj.keySet().stream().filter(k -> ((String) k).matches("^.*domain.cpf$")).findFirst().get().toString();
+        String name = jsonObj.get(nameKey).toString();
+        String cpf = jsonObj.get(cpfKey).toString();
+        userInfoDto.setDomainName(name);
+        userInfoDto.setDomainCpf(cpf);
         return userInfoDto;
     }
 }

@@ -1,6 +1,8 @@
 package com.drprado.pontointeligente.security;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class UserInfoDto {
@@ -14,6 +16,8 @@ public class UserInfoDto {
     private String locale;
     private String email;
     private boolean emailVerified;
+    private String domainName;
+    private String domainCpf;
 
     public String getSub() {
         return sub;
@@ -96,5 +100,23 @@ public class UserInfoDto {
 
     public void setEmailVerified(boolean emailVerified) {
         this.emailVerified = emailVerified;
+    }
+
+    @JsonIgnore
+    public String getDomainName() {
+        return domainName;
+    }
+
+    public void setDomainName(String domainName) {
+        this.domainName = domainName;
+    }
+
+    @JsonIgnore
+    public String getDomainCpf() {
+        return domainCpf;
+    }
+
+    public void setDomainCpf(String domainCpf) {
+        this.domainCpf = domainCpf;
     }
 }
